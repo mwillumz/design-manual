@@ -1251,14 +1251,19 @@ module.exports = {
    Expandable Organism
    ========================================================================== */
 
-'use strict';
 
-const domClassList = require( 'cf-atomic-component/src/utilities/dom-class-list' );
+const domClassList = require(
+  'cf-atomic-component/src/utilities/dom-class-list'
+);
 const addClass = domClassList.addClass;
 const contains = domClassList.contains;
 const removeClass = domClassList.removeClass;
-const closest = require( 'cf-atomic-component/src/utilities/dom-closest' ).closest;
-const ExpandableTransition = require( 'cf-atomic-component/src/utilities/transition/ExpandableTransition' );
+const closest = require(
+  'cf-atomic-component/src/utilities/dom-closest'
+).closest;
+const ExpandableTransition = require(
+  'cf-atomic-component/src/utilities/transition/ExpandableTransition'
+);
 const Events = require( 'cf-atomic-component/src/mixins/Events.js' );
 const Organism = require( 'cf-atomic-component/src/components/Organism' );
 
@@ -1309,10 +1314,14 @@ function initialize() {
     addClass( this.ui.target, this.classes.targetCollapsed );
   }
 
-  const transition = new ExpandableTransition( this.ui.content, customClasses );
+  const transition = new ExpandableTransition(
+    this.ui.content, customClasses
+  );
   this.transition = transition.init();
 
-  const groupElement = closest( this.ui.target, '.' + this.classes.groupAccordion );
+  const groupElement = closest(
+    this.ui.target, '.' + this.classes.groupAccordion
+  );
   if ( groupElement !== null ) {
     const fn = this.accordionClose.bind( this );
     Events.on( 'CFAccordionClose', fn );
@@ -1362,9 +1371,7 @@ function toggleTargetState( element ) {
 module.exports = Expandable;
 
 },{"cf-atomic-component/src/components/Organism":2,"cf-atomic-component/src/mixins/Events.js":3,"cf-atomic-component/src/utilities/dom-class-list":5,"cf-atomic-component/src/utilities/dom-closest":6,"cf-atomic-component/src/utilities/transition/ExpandableTransition":10}],13:[function(require,module,exports){
-'use strict';
-
-var Expandable = require( './Expandable' );
+const Expandable = require( './Expandable' );
 
 // polyfill for ie9 compatibility
 require( 'classlist-polyfill' );
@@ -1376,7 +1383,6 @@ Expandable.init();
    Table Organism
    ========================================================================== */
 
-'use strict';
 
 const config = require( 'cf-atomic-component/src/utilities/config' );
 const Organism = require( 'cf-atomic-component/src/components/Organism' );
@@ -1402,9 +1408,10 @@ module.exports = Table;
    Mixin for adding row link click functionality to Table organism.
    ========================================================================== */
 
-'use strict';
 
-const closest = require( 'cf-atomic-component/src/utilities/dom-closest' ).closest;
+const closest = require(
+  'cf-atomic-component/src/utilities/dom-closest'
+).closest;
 
 const TableRowLinks = {
   ui: {
@@ -1444,10 +1451,11 @@ module.exports = TableRowLinks;
    Mixin for sorting table organism.
    ========================================================================== */
 
-'use strict';
 
 const config = require( 'cf-atomic-component/src/utilities/config' );
-const closest = require( 'cf-atomic-component/src/utilities/dom-closest' ).closest;
+const closest = require(
+  'cf-atomic-component/src/utilities/dom-closest'
+).closest;
 const DIRECTIONS = config.DIRECTIONS;
 const UNDEFINED = config.UNDEFINED;
 
@@ -1490,7 +1498,7 @@ function initialize() {
     this.sortColumnIndex = this.getColumnIndex();
     this.sortDirection =
       this.contains( this.ui.sortButton, this.classes.sortDown ) ?
-      DIRECTIONS.DOWN : DIRECTIONS.UP;
+        DIRECTIONS.DOWN : DIRECTIONS.UP;
     this.updateTable();
   }
 }
@@ -1568,9 +1576,9 @@ function updateTableData( columnIndex ) {
 function updateTableDom() {
   const tableBody = this.ui.tableBody;
 
-  // Empty the table body to prepare for sorting the rows
-  // TODO: It might make sense to use innerHTML
-  // from a performance and garbage collection standpoint.
+  /* Empty the table body to prepare for sorting the rows
+     TODO: It might make sense to use innerHTML
+     from a performance and garbage collection standpoint. */
   while ( tableBody.lastChild ) {
     tableBody.removeChild( tableBody.lastChild );
   }
@@ -1600,7 +1608,7 @@ function updateTableDom() {
  */
 function tableDataSorter( direction, sortType ) {
   return function( a, b ) {
-    let sign = 1;
+    const sign = direction === DIRECTIONS.DOWN ? -1 : 1;
     let order = 0;
     const regex = /[^\d.-]/g;
 
@@ -1612,10 +1620,6 @@ function tableDataSorter( direction, sortType ) {
     if ( sortType === 'number' ) {
       a = Number( a.replace( regex, '' ) );
       b = Number( b.replace( regex, '' ) );
-    }
-
-    if ( direction === DIRECTIONS.DOWN ) {
-      sign = -1;
     }
 
     // Sort the values
@@ -1660,7 +1664,6 @@ module.exports = TableSortable;
    Table initialization code.
    ========================================================================== */
 
-'use strict';
 
 const Table = require( './Table' );
 
